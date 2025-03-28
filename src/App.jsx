@@ -1,45 +1,41 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Layout from "./components/layout/Layout";
-import OwnerDashboard from "./components/dashboard/OwnerDashboard";
-import MenuList from "./components/menu/MenuList";
-import MenuForm from "./components/menu/MenuForm";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import { AppProvider } from "./contexts/AppContext";
+import AppRoutes from "./AppRoutes";
 import { Toaster } from "react-hot-toast";
-import SubscriptionList from "./components/subscription/SubscriptionList";
-import EventList from "./components/events/EventList";
-import ItemManagement from "./components/items/ItemManagement";
-import RetailDashboard from "./components/retail/RetailDashboard";
-import POSSystem from "./components/retail/POSSystem";
-import IntegratedInventory from "./components/inventory/IntegratedInventory";
-import IntegratedAnalytics from "./components/analytics/IntegratedAnalytics";
 
-const App = () => {
+function App() {
   return (
-    <>
-      <Toaster position="top-right" />
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<OwnerDashboard />} />
-            <Route path="/menu" element={<MenuList />} />
-            <Route path="/menu/new" element={<MenuForm />} />
-            <Route path="/subscriptions" element={<SubscriptionList />} />
-            <Route path="/events" element={<EventList />} />
-            <Route path="/items" element={<ItemManagement />} />
-            {/* Add more routes as needed */}
-            <Route path="/retail" element={<RetailDashboard />} />
-            <Route path="/pos" element={<POSSystem />} />
-            <Route path="/inventory" element={<IntegratedInventory />} />
-            <Route
-              path="/subscriptions"
-              element={<EnhancedSubscriptionPlans />}
-            />
-            <Route path="/offers" element={<OffersManagement />} />
-            <Route path="/analytics" element={<IntegratedAnalytics />} />
-          </Routes>
-        </Layout>
-      </Router>
-    </>
+    <BrowserRouter>
+      <AuthProvider>
+        <AppProvider>
+          <AppRoutes />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: "#363636",
+                color: "#fff",
+              },
+              success: {
+                duration: 3000,
+                theme: {
+                  primary: "#4BB543",
+                },
+              },
+              error: {
+                duration: 4000,
+                theme: {
+                  primary: "#FF0000",
+                },
+              },
+            }}
+          />
+        </AppProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
